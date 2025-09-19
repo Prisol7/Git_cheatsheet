@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Workflows for RDRP</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+    }
+    
+  /* Navbar - minimal, centered, sticky */
+  .nav {
+    position: sticky;
+    top: 0;
+    background: #ffffffcc;
+    border-bottom: 1px solid #eaeaea;
+    backdrop-filter: saturate(180%) blur(6px);
+    -webkit-backdrop-filter: saturate(180%) blur(6px);
+    z-index: 1000;
+  }
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 0 16px;
+    flex-wrap: wrap;
+  }
+  .nav-link {
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+  .nav-link:hover {
+    color: #342F96;
+    background: #f3f4ff;
+  }
+  .nav-link:focus-visible {
+    outline: 2px solid #342F96;
+    outline-offset: 2px;
+  }
+    
+    /* Main content */
+  .main-content {
+    margin-top: 24px;
+    padding: 20px;
+  }
+    
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+  }
+    
+    h1 {
+        color: #342F96;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        text-align: center;
+    }
+    
+  h2 {
+    color: #342F96;
+    margin: 2rem 0 1rem 0;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 0.5rem;
+    scroll-margin-top: 80px;
+  }
+    
+    h3 {
+        color: #495057;
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.2rem;
+    }
+    
+    .workflow {
+        background: #f8f9fa;
+        border-left: 4px solid #342F96;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .workflow h3 {
+        margin-top: 0;
+        color: #342F96;
+    }
+    
+    ol {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.8rem;
+    }
+    
+    pre {
+        background: #2C2C47;
+        border: 1px solid #e9ecef;
+        padding: 0.8rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+    }
+    
+    code {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        color: #e83e8c;
+        background: #f8f9fa;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.9rem;
+    }
+    
+    pre code {
+        background: none;
+        padding: 0;
+        color: #f8f9fa;
+    }
+    
+    .note {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 1rem;
+        border-radius: 6px;
+        margin: 1rem 0;
+    }
+    
+    .note strong {
+        color: #856404;
+    }
+    
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .nav-inner { height: 52px; gap: 0.9rem; }
+    .main-content { padding: 10px; margin-top: 16px; }
+    .container { padding: 1.5rem; margin: 0 10px; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.3rem; }
+    pre { font-size: 0.8rem; padding: 0.6rem; }
+  }
+    
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        .container {
+            padding: 1rem;
+            margin: 0 5px;
+        }
+        
+        pre {
+            font-size: 0.75rem;
+        }
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="git_cheatsheet.html" class="nav-link">Git Cheatsheet</a>
+      <a href="https://github.com" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      <h1>Git Workflows for RDRP</h1>
+
+      <h2>Overview</h2>
+      <p>This guide covers two essential Git workflows for collaborative development: working with branches on the same repository and contributing to projects via forking.</p>
+
+      <div class="workflow">
+        <h3>Workflow 1: Clone → Branch → Push → Pull Request (Same Repo)</h3>
+        <p>Use this workflow when you have direct access to the repository (you're a collaborator).</p>
+        
+        <ol>
+          <li><strong>Clone the repository</strong>
+            <pre><code>git clone &lt;repository-url&gt;
+cd &lt;repository-name&gt;</code></pre>
+          </li>
+          
+          <li><strong>Create and switch to a new branch</strong>
+            <pre><code>git checkout -b feature/your-feature-name</code></pre>
+            <div class="note">
+              <strong>Note:</strong> Use descriptive branch names like <code>feature/add-login</code> or <code>fix/navbar-bug</code>
+            </div>
+          </li>
+          
+          <li><strong>Make your changes and commit them</strong>
+            <pre><code>git add .
+git commit -m "Add descriptive commit message"</code></pre>
+          </li>
+          
+          <li><strong>Push your branch to the remote repository</strong>
+            <pre><code>git push origin feature/your-feature-name</code></pre>
+          </li>
+          
+          <li><strong>Create a Pull Request</strong>
+            <ul>
+              <li>Go to the repository on GitHub</li>
+              <li>Click "Compare & pull request" button</li>
+              <li>Add a title and description for your changes</li>
+              <li>Click "Create pull request"</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div class="workflow">
+        <h3>Workflow 2: Fork → Clone → Branch → Push → Pull Request (Fork Contribution)</h3>
+        <p>Use this workflow when contributing to a project you don't have direct access to.</p>
+        
+        <ol>
+          <li><strong>Fork the repository</strong>
+            <ul>
+              <li>Go to the original repository on GitHub</li>
+              <li>Click the "Fork" button in the top-right corner</li>
+              <li>This creates a copy of the repo in your GitHub account</li>
+            </ul>
+          </li>
+          
+          <li><strong>Clone your forked repository</strong>
+            <pre><code>git clone &lt;your-fork-url&gt;
+cd &lt;repository-name&gt;</code></pre>
+          </li>
+          
+          <li><strong>Add the original repository as upstream (optional but recommended)</strong>
+            <pre><code>git remote add upstream &lt;original-repository-url&gt;</code></pre>
+          </li>
+          
+          <li><strong>Create and switch to a new branch</strong>
+            <pre><code>git checkout -b feature/your-contribution</code></pre>
+          </li>
+          
+          <li><strong>Make your changes and commit them</strong>
+            <pre><code>git add .
+git commit -m "Describe your changes clearly"</code></pre>
+          </li>
+          
+          <li><strong>Push the branch to your fork</strong>
+            <pre><code>git push origin feature/your-contribution</code></pre>
+          </li>
+          
+          <li><strong>Create a Pull Request to the original repository</strong>
+            <ul>
+              <li>Go to your forked repository on GitHub</li>
+              <li>Click "Compare & pull request" button</li>
+              <li>Ensure the base repository is the original repo and base branch is usually <code>main</code></li>
+              <li>Ensure the head repository is your fork and compare branch is your feature branch</li>
+              <li>Add a clear title and description</li>
+              <li>Click "Create pull request"</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <h2>Best Practices</h2>
+      <ul>
+        <li><strong>Always work on feature branches</strong> - Never commit directly to <code>main</code></li>
+        <li><strong>Pull before you start</strong> - Make sure you have the latest changes</li>
+        <li><strong>Write clear commit messages</strong> - Explain what and why, not just what</li>
+        <li><strong>Keep pull requests focused</strong> - One feature or fix per PR</li>
+        <li><strong>Test your changes</strong> - Make sure everything works before creating a PR</li>
+        <li><strong>Review your own code</strong> - Check the diff before submitting</li>
+      </ul>
+
+      <h2>Keeping Your Fork Updated</h2>
+      <p>When working with forks, periodically sync with the original repository:</p>
+      <pre><code>git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main</code></pre>
+
+      <h2>Common Commands Summary</h2>
+      <div class="workflow">
+        <h3>Essential Commands</h3>
+        <pre><code># Check current branch and status
+git status
+git branch
+
+# Switch branches
+git checkout &lt;branch-name&gt;
+
+# Create and switch to new branch
+git checkout -b &lt;new-branch-name&gt;
+
+# Add and commit changes
+git add .
+git commit -m "Your message"
+
+# Push to remote
+git push origin &lt;branch-name&gt;
+
+# Pull latest changes
+git pull origin &lt;branch-name&gt;</code></pre>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>

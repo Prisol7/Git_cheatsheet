@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Cheatsheet for RDRP</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+ 
+        background-color: #f8f9fa;
+    }
+    
+  /* Navbar - minimal, centered, sticky */
+  .nav {
+    position: sticky;
+    top: 0;
+    background: #ffffffcc; /* subtle translucency */
+    border-bottom: 1px solid #eaeaea;
+    backdrop-filter: saturate(180%) blur(6px);
+    -webkit-backdrop-filter: saturate(180%) blur(6px);
+    z-index: 1000;
+  }
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 0 16px;
+    flex-wrap: wrap;
+  }
+  .nav-link {
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+  .nav-link:hover {
+    color: #342F96;
+    background: #f3f4ff;
+  }
+  .nav-link:focus-visible {
+    outline: 2px solid #342F96;
+    outline-offset: 2px;
+  }
+    
+  /* Main content */
+  .main-content {
+    margin-top: 24px;
+    padding: 20px;
+  }
+    
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+    
+    h1 {
+        color: #342F96;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        text-align: center;
+    }
+    
+  h2 {
+    color: #342F96;
+    margin: 2rem 0 1rem 0;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 0.5rem;
+    scroll-margin-top: 80px;
+  }
+    
+    ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.8rem;
+    }
+    
+    pre {
+        background: #2C2C47;
+        border: 1px solid #e9ecef;
+        padding: 0.8rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+        color: #ffffff;
+    }
+    
+    code {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        color: #ffffff;
+        background: #f8f9fa;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.9rem;
+    }
+    
+    pre code {
+        background: none;
+        padding: 0;
+        color: #f8f9fa;
+    }
+    
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .nav-inner {
+      height: 52px;
+      gap: 0.9rem;
+    }
+    .main-content {
+      padding: 10px;
+      margin-top: 16px;
+    }
+    .container {
+      padding: 1.5rem;
+      margin: 0 10px;
+    }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.3rem; }
+    pre { font-size: 0.8rem; padding: 0.6rem; }
+  }
+    
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        .container {
+            padding: 1rem;
+            margin: 0 5px;
+        }
+        
+        pre {
+            font-size: 0.75rem;
+        }
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="git_workflows.html" class="nav-link">Git Workflows</a>
+      <a href="https://github.com" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="container">
+      <h1>Git Cheatsheet for RDRP</h1>
+
+      <h2 id="setup">Basic Setup</h2>
+  <ul>
+    <li>Initialize a new Git repository: <pre><code>git init</code></pre></li>
+    <li>Clone a repository: <pre><code>git clone &lt;repository-url&gt;</code></pre></li>
+    <li>Configure user name: <pre><code>git config --global user.name "Your Name"</code></pre></li>
+    <li>Configure user email: <pre><code>git config --global user.email "your.email@example.com"</code></pre></li>
+  </ul>
+
+  <h2 id="changes">Working with Changes</h2>
+  <ul>
+    <li>Check status of changes: <pre><code>git status</code></pre></li>
+    <li>Add file(s) to staging: <pre><code>git add &lt;file&gt;</code></pre> or add all files <pre><code>git add .</code></pre></li>
+    <li>Commit changes: <pre><code>git commit -m "commit message"</code></pre></li>
+    <li>Amend last commit: <pre><code>git commit --amend</code></pre></li>
+  </ul>
+
+  <h2 id="history">Viewing History</h2>
+  <ul>
+    <li>View commit history: <pre><code>git log</code></pre></li>
+    <li>View concise history: <pre><code>git log --oneline</code></pre></li>
+    <li>View changes in files: <pre><code>git diff</code></pre></li>
+    <li>View staged changes: <pre><code>git diff --staged</code></pre></li>
+  </ul>
+
+  <h2 id="branching">Branching</h2>
+  <ul>
+    <li>List branches: <pre><code>git branch</code></pre></li>
+    <li>Create new branch: <pre><code>git branch &lt;branch-name&gt;</code></pre></li>
+    <li>Switch to branch: <pre><code>git checkout &lt;branch-name&gt;</code></pre></li>
+    <li>Create and switch to new branch: <pre><code>git checkout -b &lt;branch-name&gt;</code></pre></li>
+    <li>Merge branch: <pre><code>git merge &lt;branch-name&gt;</code></pre></li>
+    <li>Delete branch: <pre><code>git branch -d &lt;branch-name&gt;</code></pre></li>
+  </ul>
+
+  <h2 id="remote">Remote Repositories</h2>
+  <ul>
+    <li>Add remote repository: <pre><code>git remote add origin &lt;repository-url&gt;</code></pre></li>
+    <li>View remote repositories: <pre><code>git remote -v</code></pre></li>
+    <li>Push changes to remote: <pre><code>git push origin &lt;branch-name&gt;</code></pre></li>
+    <li>Pull changes from remote: <pre><code>git pull origin &lt;branch-name&gt;</code></pre></li>
+    <li>Fetch changes without merging: <pre><code>git fetch origin</code></pre></li>
+  </ul>
+
+  <h2 id="undoing">Undoing Changes</h2>
+  <ul>
+    <li>Unstage file(s): <pre><code>git restore --staged &lt;file&gt;</code></pre></li>
+    <li>Discard changes in file: <pre><code>git restore &lt;file&gt;</code></pre></li>
+    <li>Revert to specific commit: <pre><code>git revert &lt;commit-hash&gt;</code></pre></li>
+    <li>Reset to previous state: <pre><code>git reset --hard &lt;commit-hash&gt;</code></pre></li>
+  </ul>
+
+  <h2 id="stashing">Stashing</h2>
+  <ul>
+    <li>Save changes temporarily: <pre><code>git stash</code></pre></li>
+    <li>List stashes: <pre><code>git stash list</code></pre></li>
+    <li>Apply latest stash: <pre><code>git stash apply</code></pre></li>
+    <li>Drop a stash: <pre><code>git stash drop stash@{n}</code></pre></li>
+  </ul>
+
+  <h2 id="tagging">Tagging</h2>
+  <ul>
+    <li>Create a tag: <pre><code>git tag &lt;tag-name&gt;</code></pre></li>
+    <li>Push tag to remote: <pre><code>git push origin &lt;tag-name&gt;</code></pre></li>
+    <li>List tags: <pre><code>git tag</code></pre></li>
+  </ul>
+
+  <h2 id="tips">Tips</h2>
+  <ul>
+    <li>Always write clear commit messages.</li>
+    <li>Pull before pushing to avoid conflicts.</li>
+    <li>Use <code>.gitignore</code> to exclude unnecessary files.</li>
+    <li>Backup important changes before resetting.</li>
+    <li>Push a branch, do not push to main</li>
+  </ul>
+    </div>
+  </div>
+  
+</body>
+</html>
